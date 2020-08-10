@@ -7,17 +7,12 @@ class DataBaseLoader
 {
     private PDO $pdo;
     private array $students;
-    private array $teachers;
-    private array $classes;
 
     public function __construct()
     {
-        $pdo = self::openConnection();
+        $pdo = $this->openConnection();
         $this->pdo = $pdo;
-        $this->students = $this->loadStudents($pdo);
-        $this->teachers = $this->loadTeachers($pdo);
-        $this->classes = $this->loadClasses($pdo);
-
+        $this->students = $this->loadStudents();
     }
 
     function openConnection(): PDO
@@ -36,39 +31,55 @@ class DataBaseLoader
         return new PDO('mysql:host=' . $dbhost . ';dbname=' . $db, $dbuser, $dbpass, $driverOptions);
     }
 
-    public function loadStudents(PDO $pdo)
+    public function loadStudents()
     {
-        $statement = $pdo->query('SELECT * from students');
-        $data = $statement->fetch();
+        $pdo = $this->pdo;
+        $statement = $pdo->prepare('SELECT * from students');
+        $statement->execute();
+        $data = $statement->fetchAll();
         $studentArray =[];
         foreach($data as $student)
         {
-            $studentArray[] = new Student();
+            $studentArray[] = new Student($student['name'], (int)$student['id'], $student['email'], (int)$student['teacher_id'], (int)$student['class_id']);
         }
         return $studentArray;
     }
 
-    public function loadTeachers(PDO $pdo)
+    public function loadTeachers()
     {
-        $statement = $pdo->query('SELECT * from teachers');
-        $data = $statement->fetch();
+        $pdo = $this->pdo;
+        $statement = $pdo->prepare('SELECT * from teachers');
+        $statement->execute();
+        $data = $statement->fetchAll();
         $teacherArray =[];
         foreach($data as $teacher)
         {
-            $teacherArray[] = new Teacher();
+            $teacherArray[] = new Teacher((int)$teacher['id'], $teacher['name'], $teacher['email']);
         }
         return $teacherArray;
     }
 
-    public function loadClasses(PDO $pdo)
+    public function loadClasses()
     {
-        $statement = $pdo->query('SELECT * from classes');
-        $data = $statement->fetch();
+        $pdo = $this->pdo;
+        $statement = $pdo->prepare('SELECT * from classes');
+        $statement->execute();
+        $data = $statement->fetchAll();
         $classArray =[];
         foreach($data as $class)
         {
-            $classArray[] = new ClassName();
+            $classArray[] = new ClassName((int) $class['id'], $class['name'], $class['location'], (int)$class['teacher_id']);
         }
         return $classArray;
     }
+
+    /**
+     * @return array
+     */
+    public function getStudents(): array
+    {
+        return $this->students;
+    }
+
+
 }
