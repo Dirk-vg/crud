@@ -6,11 +6,18 @@ error_reporting(E_ALL);
 class DataBaseLoader
 {
     private PDO $pdo;
+    private array $students;
+    private array $teachers;
+    private array $classes;
 
     public function __construct()
     {
         $pdo = self::openConnection();
         $this->pdo = $pdo;
+        $this->students = $this->loadStudents($pdo);
+        $this->teachers = $this->loadTeachers($pdo);
+        $this->classes = $this->loadClasses($pdo);
+
     }
 
     function openConnection(): PDO
@@ -29,11 +36,9 @@ class DataBaseLoader
         return new PDO('mysql:host=' . $dbhost . ';dbname=' . $db, $dbuser, $dbpass, $driverOptions);
     }
 
-    public function loadStudents()
+    public function loadStudents(PDO $pdo)
     {
-        $pdo = $this->pdo;
-        $statement = $pdo->prepare('SELECT * from students');
-        $statement->execute();
+        $statement = $pdo->query('SELECT * from students');
         $data = $statement->fetch();
         $studentArray =[];
         foreach($data as $student)
@@ -43,11 +48,9 @@ class DataBaseLoader
         return $studentArray;
     }
 
-    public function loadTeachers()
+    public function loadTeachers(PDO $pdo)
     {
-        $pdo = $this->pdo;
-        $statement = $pdo->prepare('SELECT * from teachers');
-        $statement->execute();
+        $statement = $pdo->query('SELECT * from teachers');
         $data = $statement->fetch();
         $teacherArray =[];
         foreach($data as $teacher)
@@ -57,11 +60,9 @@ class DataBaseLoader
         return $teacherArray;
     }
 
-    public function loadClasses()
+    public function loadClasses(PDO $pdo)
     {
-        $pdo = $this->pdo;
-        $statement = $pdo->prepare('SELECT * from classes');
-        $statement->execute();
+        $statement = $pdo->query('SELECT * from classes');
         $data = $statement->fetch();
         $classArray =[];
         foreach($data as $class)
