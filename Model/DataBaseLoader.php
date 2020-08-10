@@ -6,11 +6,13 @@ error_reporting(E_ALL);
 class DataBaseLoader
 {
     private PDO $pdo;
+    private array $students;
 
     public function __construct()
     {
-        $pdo = self::openConnection();
+        $pdo = $this->openConnection();
         $this->pdo = $pdo;
+        $this->students = $this->loadStudents();
     }
 
     function openConnection(): PDO
@@ -34,11 +36,11 @@ class DataBaseLoader
         $pdo = $this->pdo;
         $statement = $pdo->prepare('SELECT * from students');
         $statement->execute();
-        $data = $statement->fetch();
+        $data = $statement->fetchAll();
         $studentArray =[];
         foreach($data as $student)
         {
-            $studentArray[] = new Student();
+            $studentArray[] = new Student($student['name'], (int)$student['id'], $student['email'], (int)$student['teacher_id'], (int)$student['class_id']);
         }
         return $studentArray;
     }
@@ -48,11 +50,11 @@ class DataBaseLoader
         $pdo = $this->pdo;
         $statement = $pdo->prepare('SELECT * from teachers');
         $statement->execute();
-        $data = $statement->fetch();
+        $data = $statement->fetchAll();
         $teacherArray =[];
         foreach($data as $teacher)
         {
-            $teacherArray[] = new Teacher();
+            $teacherArray[] = new Teacher((int)$teacher['id'], $teacher['name'], $teacher['email']);
         }
         return $teacherArray;
     }
@@ -62,12 +64,22 @@ class DataBaseLoader
         $pdo = $this->pdo;
         $statement = $pdo->prepare('SELECT * from classes');
         $statement->execute();
-        $data = $statement->fetch();
+        $data = $statement->fetchAll();
         $classArray =[];
         foreach($data as $class)
         {
-            $classArray[] = new ClassName();
+            $classArray[] = new ClassName((int) $class['id'], $class['name'], $class['location'], (int)$class['teacher_id']);
         }
         return $classArray;
     }
+
+    /**
+     * @return array
+     */
+    public function getStudents(): array
+    {
+        return $this->students;
+    }
+
+
 }
