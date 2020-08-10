@@ -5,9 +5,15 @@ ini_set('display_startup_errors', "1");
 error_reporting(E_ALL);
 
 //include all your model files here
-require 'Model/User.php';
+require 'Model/ClassName.php';
+require 'Model/DataBaseLoader.php';
+require 'Model/Student.php';
+require 'Model/Teacher.php';
 //include all your controllers here
 require 'Controller/HomepageController.php';
+require 'Controller/InfoControler.php';
+require 'Controller/StudentController.php';
+require 'Controller/TeacherController.php';
 require 'Controller/InfoController.php';
 
 //you could write a simple IF here based on some $_GET or $_POST vars, to choose your controller
