@@ -3,7 +3,7 @@ declare(strict_types=1);
 ini_set('display_errors', "1");
 ini_set('display_startup_errors', "1");
 error_reporting(E_ALL);
-class ClassName
+class ItClass
 {
     private int $id;
     private string $name;
@@ -11,7 +11,7 @@ class ClassName
     private int $teacher_id;
 
     /**
-     * ClassName constructor.
+     * ItClass constructor.
      * @param int $id
      * @param string $name
      * @param string $location

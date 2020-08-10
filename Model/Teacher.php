@@ -8,6 +8,23 @@ class Teacher
     private int $id;
     private string $name;
     private string $email;
+    private int $class_id;
+
+    /**
+     * @return int
+     */
+    public function getClassId(): int
+    {
+        return $this->class_id;
+    }
+
+    /**
+     * @param int $class_id
+     */
+    public function setClassId(int $class_id): void
+    {
+        $this->class_id = $class_id;
+    }
 
     /**
      * Teacher constructor.
@@ -15,11 +32,12 @@ class Teacher
      * @param string $name
      * @param string $email
      */
-    public function __construct(int $id, string $name, string $email)
+    public function __construct(int $id, string $name, string $email, int $class_id)
     {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
+        $this->class_id = $class_id;
     }
 
     /**

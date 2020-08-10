@@ -7,14 +7,17 @@ class DataBaseLoader
 {
     private PDO $pdo;
     private array $students;
+    private array $teachers;
+    private array $classes;
 
     public function __construct()
     {
         $pdo = $this->openConnection();
         $this->pdo = $pdo;
         $this->students = $this->loadStudents();
+        $this->teachers = $this->loadTeachers();
+        $this->classes = $this->loadClasses();
     }
-
     function openConnection(): PDO
     {
         $dbhost = "localhost";
@@ -54,7 +57,7 @@ class DataBaseLoader
         $teacherArray =[];
         foreach($data as $teacher)
         {
-            $teacherArray[] = new Teacher((int)$teacher['id'], $teacher['name'], $teacher['email']);
+            $teacherArray[] = new Teacher((int)$teacher['id'], $teacher['name'], $teacher['email'], (int)$teacher['class_id']);
         }
         return $teacherArray;
     }
@@ -68,7 +71,7 @@ class DataBaseLoader
         $classArray =[];
         foreach($data as $class)
         {
-            $classArray[] = new ClassName((int) $class['id'], $class['name'], $class['location'], (int)$class['teacher_id']);
+            $classArray[] = new ItClass((int) $class['id'], $class['name'], $class['location'], (int)$class['teacher_id']);
         }
         return $classArray;
     }
@@ -81,5 +84,38 @@ class DataBaseLoader
         return $this->students;
     }
 
+    /**
+     * @return array
+     */
+    public function getTeachers(): array
+    {
+        return $this->teachers;
+    }
 
+    /**
+     * @return array
+     */
+    public function getClasses(): array
+    {
+        return $this->classes;
+    }
+
+    public function fetchTeacherbyId(int $id) : string
+    {
+        $pdo = $this->pdo;
+        $statement = $pdo->prepare('SELECT name from teachers where id= :id');
+        $statement->bindValue('id', $id);
+        $statement->execute();
+        $name = $statement->fetch();
+        return $name['name'];
+    }
+    public function fetchClassbyId(int $id) : string
+    {
+        $pdo = $this->pdo;
+        $statement = $pdo->prepare('SELECT name from classes where id= :id');
+        $statement->bindValue('id', $id);
+        $statement->execute();
+        $name = $statement->fetch();
+        return $name['name'];
+    }
 }
