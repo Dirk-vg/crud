@@ -1,43 +1,29 @@
 <?php
+declare(strict_types=1);
 ini_set('display_errors', "1");
 ini_set('display_startup_errors', "1");
 error_reporting(E_ALL);
 
-class Teacher
+class ItClass
 {
     private int $id;
     private string $name;
-    private string $email;
-    private int $class_id;
+    private string $location;
+    private int $teacher_id;
 
     /**
-     * @return int
-     */
-    public function getClassId(): int
-    {
-        return $this->class_id;
-    }
-
-    /**
-     * @param int $class_id
-     */
-    public function setClassId(int $class_id): void
-    {
-        $this->class_id = $class_id;
-    }
-
-    /**
-     * Teacher constructor.
+     * ItClass constructor.
      * @param int $id
      * @param string $name
-     * @param string $email
+     * @param string $location
+     * @param int $teacher_id
      */
-    public function __construct(int $id, string $name, string $email, int $class_id)
+    public function __construct(int $id, string $name, string $location, int $teacher_id)
     {
         $this->id = $id;
         $this->name = $name;
-        $this->email = $email;
-        $this->class_id = $class_id;
+        $this->location = $location;
+        $this->teacher_id = $teacher_id;
     }
 
     /**
@@ -75,19 +61,32 @@ class Teacher
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getLocation(): string
     {
-        return $this->email;
+        return $this->location;
     }
 
     /**
-     * @param string $email
+     * @param string $location
      */
-    public function setEmail(string $email): void
+    public function setLocation(string $location): void
     {
-        $this->email = $email;
+        $this->location = $location;
     }
 
+    /**
+     * @return int
+     */
+    public function getTeacherId(): int
+    {
+        return $this->teacher_id;
+    }
 
-
+    /**
+     * @param int $teacher_id
+     */
+    public function setTeacherId(int $teacher_id): void
+    {
+        $this->teacher_id = $teacher_id;
+    }
 }
