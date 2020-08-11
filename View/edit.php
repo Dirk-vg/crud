@@ -8,19 +8,15 @@ $statement = $pdo->prepare($sql);
 $statement->bindValue(':id', $id);
 $statement->execute();
 $person = $statement->fetch(PDO::FETCH_OBJ);
-if (isset ($_POST['name'])  && isset($_POST['email']) ) {
+if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $sql = 'UPDATE students SET name=:name, email=:email WHERE id=:id';
     $statement = $pdo->prepare($sql);
-    if ($statement->execute([':name' => $name, ':email' => $email, ':id' => $id])) {
+    if ($statement->execute([':name' => $name, ':email' => $email, 'class' => $class, ':teacher' => $teacher, ':id' => $id])) {
         header("Location: /");
     }
-
-
-
 }
-
 
 ?>
 <?php require 'includes/header.php'; ?>
@@ -32,7 +28,7 @@ if (isset ($_POST['name'])  && isset($_POST['email']) ) {
         <div class="card-body">
             <?php if(!empty($message)): ?>
                 <div class="alert alert-success">
-                    <?= $message; ?>
+                    <?= $message ?>
                 </div>
             <?php endif; ?>
             <form method="post">
@@ -42,7 +38,15 @@ if (isset ($_POST['name'])  && isset($_POST['email']) ) {
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" value="<?php $person->getEmail(); ?>" name="email" id="email" class="form-control">
+                    <input type="email" value="<?php $email->getEmail(); ?>" name="email" id="email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="class">Class</label>
+                    <input type="text" value="<?php $class->getClasses(); ?>" name="email" id="email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" value="<?php $teacher->getTeachers(); ?>" name="email" id="email" class="form-control">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-info">Update person</button>
