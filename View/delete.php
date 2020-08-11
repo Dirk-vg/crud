@@ -1,5 +1,5 @@
 <?php
-require 'db.php';
+require 'Model/DataBaseLoader.php';
 $id = $_GET['id'];
 $sql = 'DELETE FROM people WHERE id=:id';
 $statement = $connection->prepare($sql);

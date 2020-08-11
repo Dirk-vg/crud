@@ -1,7 +1,7 @@
 <?php
 require 'db.php';
 $message = '';
-if (isset ($_POST['name'])  && isset($_POST['email']) ) {
+if (isset($_POST['name'], $_POST['email'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $sql = 'INSERT INTO people(name, email) VALUES(:name, :email)';
@@ -16,7 +16,7 @@ if (isset ($_POST['name'])  && isset($_POST['email']) ) {
 
 
 ?>
-<?php require 'header.php'; ?>
+<?php require 'includes/header.php'; ?>
 <div class="container">
     <div class="card mt-5">
         <div class="card-header">
@@ -44,4 +44,4 @@ if (isset ($_POST['name'])  && isset($_POST['email']) ) {
         </div>
     </div>
 </div>
-<?php require 'footer.php'; ?>
+<?php require 'includes/footer.php'; ?>
