@@ -14,6 +14,6 @@ class TeacherController
 
         //load the view
         //require '../View/studentDetail.php';
-        require '../View/teacherOverview.php';
+        require '../../View/teacher/teacherOverview.php';
     }
 }

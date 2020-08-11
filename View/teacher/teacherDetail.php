@@ -3,6 +3,7 @@ declare(strict_types=1);
 ini_set('display_errors', "1");
 ini_set('display_startup_errors', "1");
 error_reporting(E_ALL);
+require_once '../../Model/DataBaseLoader.php';
 ?>
 
 <table>
@@ -16,6 +17,9 @@ error_reporting(E_ALL);
     </tr>
     <?php
     if(isset($_POST['teacher'])){
+        $database = new DataBaseLoader();
+        $teachers = $database->loadTeachers();
+        $students = $database->loadStudents();
         $currentTeacher = [];
         foreach($teachers as $teacher) {
             if($teacher->getId() == (int)$_POST['teacher'])
@@ -38,7 +42,7 @@ error_reporting(E_ALL);
             }
         }
         echo "</ul></td>";
-        echo "<td><button>Edit</button><button>Remove</button></td>";
+        echo "<td><form action='teacherEdit.php' method='post'> <button type='submit' name='id' value={$currentTeacher->getId()}> Edit or Remove </button></form> </td>";
         echo "</tr>";
     }
     ?>

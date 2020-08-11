@@ -1,21 +1,25 @@
 <?php
-require_once '../Model/DataBaseLoader.php';
+require_once '../../Model/DataBaseLoader.php';
 $message = '';
 if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'])) {
+    $database = new DataBaseLoader();
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $teacher = $database->fetchTeacherbyId((int)$_POST['teacher']);
-    $sql = 'INSERT INTO students(name, email, class, teacher) VALUES(:name, :email, :class, :teacher)';
-    $database = new DataBaseLoader();
+    $teacher = $database->fetchTeacherIdbyName($_POST['teacher']);
+    $class = $database->fetchClassIdByName($_POST['class']);
+    $sql = 'INSERT INTO students(name, email, teacher_id, class_id) VALUES(:name, :email, :teacher, :class)';
     $PDO = $database->getPdo();
     $statement =$PDO->prepare($sql);
-    if ($statement->execute([':name' => $name, ':email' => $email, ':class' => $class, ':teacher' => $teacher])) {
-        $message = 'data inserted successfully';
-    }
+    $statement->bindValue('name', $name);
+    $statement->bindValue('email', $email);
+    $statement->bindValue('teacher', $teacher);
+    $statement->bindValue('class', $class);
+    $statement->execute();
+
 }
 
 ?>
-<?php require 'includes/header.php'; ?>
+<?php require '../includes/header.php'; ?>
 <div class="container">
     <div class="card mt-5">
         <div class="card-header">
@@ -47,21 +51,8 @@ if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'])) 
                 <div class="form-group">
                     <button type="submit" class="btn btn-info">Create a person</button>
                 </div>
-                <label for="product">Choose a teacher:</label>
-                <select name="product" id="product">
-                    <option value="">Teachers</option>
-                    <?php
-                    /** @var Teacher[] $teachers */
-                    $teachers = $teachers->getTeachers();
-                    foreach ($teachers as $teacher) {
-                        $id = $teacher->getId();
-                        $name = ucfirst($teacher->getName());
-                        echo '<option value="$teacher_id">';
-                    }
-                    ?>
-                </select>
             </form>
         </div>
     </div>
 </div>
-<?php require 'includes/footer.php'; ?>
+<?php require '../includes/footer.php'; ?>

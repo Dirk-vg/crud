@@ -11,12 +11,17 @@ class HomePageController
     {
 
         if (isset($_POST['student_page'])) {
-            header('Location: http://crud.local/View/StudentView.php');
+            header('Location: http://crud.local/View/student/StudentView.php');
             die();
         }
 
         if (isset($_POST['teacher_page'])) {
-            header('Location: http://crud.local/View/teacherView.php');
+            header('Location: http://crud.local/View/teacher/teacherView.php');
+            die();
+        }
+
+        if (isset($_POST['class_page'])) {
+            header('Location: http://crud.local/View/class/classView.php');
             die();
         }
 

@@ -13,6 +13,6 @@ class StudentController
 
         //load the view
         //require '../View/studentDetail.php';
-        require '../View/studentOverview.php';
+        require '../../View/student/studentOverview.php';
     }
 }

@@ -16,12 +16,12 @@ error_reporting(E_ALL);
         echo '<tr>';
         echo "<td> {$teacher->getId()} </td>";
         echo "<td> {$teacher->getName()} </td>";
-        echo "<td> <button value=> Edit </button> <button> Remove</button> </td>";
+        echo "<td><form action='teacherEdit.php' method='post'> <button type='submit' name='id' value={$teacher->getId()}> Edit or Remove </button></form> </td>";
     }
     ?>
 </table>
 
-<form action="../index.php" method="post">
+<form action="teacherDetail.php" method="post">
     <select name="teacher" id="">
         <option value="">teacher...</option>
         <?php
@@ -33,4 +33,4 @@ error_reporting(E_ALL);
     </select>
     <input type="submit">
 </form>
-<a href="">Create new teacher</a>
+<a href="teacherCreate.php">Create new teacher</a>

@@ -17,12 +17,12 @@ error_reporting(E_ALL);
         echo "<td> {$student->getId()} </td>";
         echo "<td> {$student->getName()} </td>";
 
-        echo "<td><form action='edit.php' method='post'> <button type='submit' name='id' value={$student->getId()}> Edit </button> <button> Remove</button></form> </td>";
+        echo "<td><form action='studentEdit.php' method='post'> <button type='submit' name='id' value={$student->getId()}> Edit or Remove </button></form> </td>";
     }
     ?>
 </table>
 
-<form action="../Controller/StudentController.php" method="post">
+<form action="studentDetail.php" method="post">
     <select name="student" id="">
         <option value="">student...</option>
         <?php

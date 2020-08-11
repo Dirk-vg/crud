@@ -1,11 +1,12 @@
 <?php
-require '../Model/DataBaseLoader.php';
+require '../../Model/DataBaseLoader.php';
+
+$database = new DataBaseLoader();
+$pdo = $database->getPdo();
 if (isset($_POST['id'])) {
 
 $sql = 'SELECT * FROM students WHERE id=:id';
 $id = $_POST['id'];
-$database = new DataBaseLoader();
-$pdo = $database->getPdo();
 $statement = $pdo->prepare($sql);
 $statement->bindValue(':id', $id);
 $statement->execute();
@@ -14,9 +15,8 @@ $currentStudent = new Student($fetch['name'],(int) $fetch['id'], $fetch['email']
 
 }
 
-if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'], $_POST['id'])) {
-    $database = new DataBaseLoader();
-    $pdo = $database->getPdo();
+if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'], $_POST['id']) && isset($_POST['save'])) {
+
     $id = $_POST['id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -34,8 +34,20 @@ if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'], $
     $statement->execute();
 }
 
+if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'], $_POST['id']) && isset($_POST['delete'])) {
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $class = $database->fetchClassIdByName($_POST['class']);
+    $teacher = $database->fetchTeacherIdbyName($_POST['teacher']);
+    $sql = 'DELETE from students WHERE id=:id';
+    $statement = $pdo->prepare($sql);
+    $statement->bindValue('id', $id);
+    $statement->execute();
+}
+
 ?>
-<?php require 'includes/header.php'; ?>
+<?php require '../includes/header.php'; ?>
 <div class="container">
     <div class="card mt-5">
         <div class="card-header">
@@ -69,7 +81,8 @@ if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'], $
                     <input type="text" value="<?php if(isset($currentStudent)){ echo $database->fetchClassbyId($currentStudent->getClassId());} ?>" name="class" id="class" class="form-control">
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-info">Update person</button>
+                    <button type="submit" name="save" class="btn btn-info">Update person</button>
+                    <button type="submit" name="delete" class="btn btn-danger">Delete person</button>
                 </div>
             </form>
         </div>
@@ -77,7 +90,7 @@ if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'], $
 </div>
 
 
-<?php require 'includes/footer.php';
+<?php require '../includes/footer.php';
 
 // ToDo
 /**
