@@ -5,7 +5,7 @@ if (isset($_POST['name'], $_POST['email'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $sql = 'INSERT INTO people(name, email) VALUES(:name, :email)';
-    $statement = $connection->prepare($sql);
+    $statement =$PDO->prepare($sql);
     if ($statement->execute([':name' => $name, ':email' => $email])) {
         $message = 'data inserted successfully';
     }
