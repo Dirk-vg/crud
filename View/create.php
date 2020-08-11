@@ -4,6 +4,7 @@ $message = '';
 if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $teacher = $database->fetchTeacherbyId((int)$_POST['teacher']);
     $sql = 'INSERT INTO students(name, email, class, teacher) VALUES(:name, :email, :class, :teacher)';
     $database = new DataBaseLoader();
     $PDO = $database->getPdo();

@@ -25,8 +25,8 @@ class DataBaseLoader
     function openConnection(): PDO
     {
         $dbhost = "localhost";
-        $dbuser = "root";
-        $dbpass = "Compile-1894";
+        $dbuser = "becode";
+        $dbpass = "becode";
         $db = "crud_exercise";
 
         $driverOptions = [
@@ -113,6 +113,15 @@ class DataBaseLoader
         $name = $statement->fetch();
         return $name['name'];
     }
+    public function fetchTeacherIdbyName(string $name) : int
+    {
+        $pdo = $this->pdo;
+        $statement = $pdo->prepare('SELECT id from teachers where name= :name');
+        $statement->bindValue('name', $name);
+        $statement->execute();
+        $teacher = $statement->fetch();
+        return (int)$teacher['id'];
+    }
     public function fetchClassbyId(int $id) : string
     {
         $pdo = $this->pdo;
@@ -121,6 +130,16 @@ class DataBaseLoader
         $statement->execute();
         $name = $statement->fetch();
         return $name['name'];
+    }
+
+    public function fetchClassIdByName(string $name) : int
+    {
+        $pdo = $this->pdo;
+        $statement = $pdo->prepare('SELECT id from classes where name= :name');
+        $statement->bindValue('name', $name);
+        $statement->execute();
+        $name = $statement->fetch();
+        return $name['id'];
     }
 
     /**

@@ -1,21 +1,37 @@
 <?php
 require '../Model/DataBaseLoader.php';
-$id = $_GET['id'];
+if (isset($_POST['id'])) {
+
 $sql = 'SELECT * FROM students WHERE id=:id';
+$id = $_POST['id'];
 $database = new DataBaseLoader();
 $pdo = $database->getPdo();
 $statement = $pdo->prepare($sql);
 $statement->bindValue(':id', $id);
 $statement->execute();
-$person = $statement->fetch(PDO::FETCH_OBJ);
-if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'])) {
+$fetch = $statement->fetch();
+$currentStudent = new Student($fetch['name'],(int) $fetch['id'], $fetch['email'], (int)$fetch['teacher_id'], (int)$fetch['class_id']);
+
+}
+
+if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'], $_POST['id'])) {
+    $database = new DataBaseLoader();
+    $pdo = $database->getPdo();
+    $id = $_POST['id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $sql = 'UPDATE students SET name=:name, email=:email WHERE id=:id';
+    $class = $database->fetchClassIdByName($_POST['class']);
+    $teacher = $database->fetchTeacherIdbyName($_POST['teacher']);
+
+    $sql = 'UPDATE students SET name=:name, email=:email, teacher_id=:teacher_id, class_id=:class_id WHERE id=:id';
     $statement = $pdo->prepare($sql);
-    if ($statement->execute([':name' => $name, ':email' => $email, 'class' => $class, ':teacher' => $teacher, ':id' => $id])) {
-        header("Location: /");
-    }
+
+    $statement->bindValue('name', $name);
+    $statement->bindValue('email', $email);
+    $statement->bindValue('teacher_id', $teacher);
+    $statement->bindValue('class_id', $class);
+    $statement->bindValue('id', $id);
+    $statement->execute();
 }
 
 ?>
@@ -33,20 +49,24 @@ if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'])) 
             <?php endif; ?>
             <form method="post">
                 <div class="form-group">
+                    <label for="name">Id</label>
+                    <input value="<?php  if(isset($currentStudent)) { echo $currentStudent->getId();} ?>" type="text" name="id" id="id" class="form-control" readonly>
+                </div>
+                <div class="form-group">
                     <label for="name">Name</label>
-                    <input value="<?php  $person->getName(); ?>" type="text" name="name" id="name" class="form-control">
+                    <input value="<?php  if(isset($currentStudent)) { echo $currentStudent->getName();} ?>" type="text" name="name" id="name" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" value="<?php $email->getEmail(); ?>" name="email" id="email" class="form-control">
+                    <input type="text" value="<?php if(isset($currentStudent)) { echo $currentStudent->getEmail();} ?>" name="email" id="email" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="class">Class</label>
-                    <input type="text" value="<?php $class->getClasses(); ?>" name="email" id="email" class="form-control">
+                    <label for="class">Teacher</label>
+                    <input type="text" value="<?php if(isset($currentStudent)){ echo $database->fetchTeacherbyId($currentStudent->getTeacherId());} ?>" name="teacher" id="teacher" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" value="<?php $teacher->getTeachers(); ?>" name="email" id="email" class="form-control">
+                    <label for="email">Class</label>
+                    <input type="text" value="<?php if(isset($currentStudent)){ echo $database->fetchClassbyId($currentStudent->getClassId());} ?>" name="class" id="class" class="form-control">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-info">Update person</button>

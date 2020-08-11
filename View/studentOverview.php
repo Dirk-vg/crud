@@ -16,7 +16,8 @@ error_reporting(E_ALL);
         echo '<tr>';
         echo "<td> {$student->getId()} </td>";
         echo "<td> {$student->getName()} </td>";
-        echo "<td> <button value=> Edit </button> <button> Remove</button> </td>";
+
+        echo "<td><form action='edit.php' method='post'> <button type='submit' name='id' value={$student->getId()}> Edit </button> <button> Remove</button></form> </td>";
     }
     ?>
 </table>
@@ -33,4 +34,4 @@ error_reporting(E_ALL);
     </select>
     <input type="submit">
 </form>
-<a href="">Create new Student</a>
+<a href="create.php">Create new Student</a>
