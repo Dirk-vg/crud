@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+/*declare(strict_types=1);
 ini_set('display_errors', "1");
 ini_set('display_startup_errors', "1");
 error_reporting(E_ALL);
@@ -31,6 +31,8 @@ $students = $database->getStudents();
 $teachers = $database->getTeachers();
 $classes = $database->getClasses();
 
+
+
 require 'View/studentOverview.php';
 require 'View/studentDetail.php';
 
@@ -38,4 +40,4 @@ require 'View/teacherOverview.php';
 require 'View/teacherDetail.php';
 
 require 'View/classOverview.php';
-require  'View/classDetail.php';
+require  'View/classDetail.php';*/

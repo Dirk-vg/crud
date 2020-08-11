@@ -21,7 +21,7 @@ error_reporting(E_ALL);
     ?>
 </table>
 
-<form action="../index.php" method="post">
+<form action="../Controller/StudentController.php" method="post">
     <select name="student" id="">
         <option value="">student...</option>
         <?php
