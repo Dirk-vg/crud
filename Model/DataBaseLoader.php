@@ -25,8 +25,8 @@ class DataBaseLoader
     function openConnection(): PDO
     {
         $dbhost = "localhost";
-        $dbuser = "becode";
-        $dbpass = "becode";
+        $dbuser = "root";
+        $dbpass = "Compile-1894";
         $db = "crud_exercise";
 
         $driverOptions = [

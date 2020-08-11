@@ -5,5 +5,15 @@ error_reporting(E_ALL);
 
 class TeacherController
 {
+    //TODO
+    public function render(array $GET, array $POST)
+    {
 
+        $database = new DataBaseLoader();
+        $teachers = $database->getTeachers();
+
+        //load the view
+        //require '../View/studentDetail.php';
+        require '../View/teacherOverview.php';
+    }
 }

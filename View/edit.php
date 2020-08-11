@@ -75,4 +75,13 @@ if (isset($_POST['name'], $_POST['email'], $_POST['class'], $_POST['teacher'], $
         </div>
     </div>
 </div>
-<?php require 'includes/footer.php'; ?>
+
+
+<?php require 'includes/footer.php';
+
+// ToDo
+/**
+delete btn for student
+ */
+
+?>

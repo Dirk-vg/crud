@@ -11,5 +11,5 @@ require_once '../Controller/InfoController.php';
 require_once '../Controller/StudentController.php';
 require_once '../Controller/TeacherController.php';
 
-$controller = new StudentController();
+$controller = new TeacherController();
 $controller->render($_GET, $_POST);
