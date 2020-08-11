@@ -1,5 +1,5 @@
 <?php
-require 'db.php';
+require 'Model/DataBaseLoader.php';
 $message = '';
 if (isset($_POST['name'], $_POST['email'])) {
     $name = $_POST['name'];
