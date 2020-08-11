@@ -3,6 +3,10 @@ ini_set('display_errors', "1");
 ini_set('display_startup_errors', "1");
 error_reporting(E_ALL);
 
+require 'ItClass.php';
+require 'Student.php';
+require  'Teacher.php';
+
 class DataBaseLoader
 {
     private PDO $pdo;
@@ -21,8 +25,8 @@ class DataBaseLoader
     function openConnection(): PDO
     {
         $dbhost = "localhost";
-        $dbuser = "root";
-        $dbpass = "Compile-1894";
+        $dbuser = "becode";
+        $dbpass = "becode";
         $db = "crud_exercise";
 
         $driverOptions = [
@@ -118,4 +122,13 @@ class DataBaseLoader
         $name = $statement->fetch();
         return $name['name'];
     }
+
+    /**
+     * @return PDO
+     */
+    public function getPdo(): PDO
+    {
+        return $this->pdo;
+    }
+
 }

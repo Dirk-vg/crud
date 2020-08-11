@@ -12,7 +12,7 @@ require_once 'Model/DataBaseLoader.php';
 
 //include all your controllers here
 require_once 'Controller/HomePageController.php';
-require_once 'Controller/InfoController.php';
+require_once 'Controller/InfoControler.php';
 require_once 'Controller/StudentController.php';
 require_once 'Controller/TeacherController.php';
 //require 'Controller/InfoController.php';

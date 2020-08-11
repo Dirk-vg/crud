@@ -1,15 +1,18 @@
 <?php
-require 'Model/DataBaseLoader.php';
+require '../Model/DataBaseLoader.php';
 $id = $_GET['id'];
-$sql = 'SELECT * FROM people WHERE id=:id';
-$statement = $connection->prepare($sql);
-$statement->execute([':id' => $id ]);
+$sql = 'SELECT * FROM students WHERE id=:id';
+$database = new DataBaseLoader();
+$pdo = $database->getPdo();
+$statement = $pdo->prepare($sql);
+$statement->bindValue(':id', $id);
+$statement->execute();
 $person = $statement->fetch(PDO::FETCH_OBJ);
 if (isset ($_POST['name'])  && isset($_POST['email']) ) {
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $sql = 'UPDATE people SET name=:name, email=:email WHERE id=:id';
-    $statement = $connection->prepare($sql);
+    $sql = 'UPDATE students SET name=:name, email=:email WHERE id=:id';
+    $statement = $pdo->prepare($sql);
     if ($statement->execute([':name' => $name, ':email' => $email, ':id' => $id])) {
         header("Location: /");
     }
@@ -35,11 +38,11 @@ if (isset ($_POST['name'])  && isset($_POST['email']) ) {
             <form method="post">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input value="<?= $person->name; ?>" type="text" name="name" id="name" class="form-control">
+                    <input value="<?php  $person->getName(); ?>" type="text" name="name" id="name" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" value="<?= $person->email; ?>" name="email" id="email" class="form-control">
+                    <input type="email" value="<?php $person->getEmail(); ?>" name="email" id="email" class="form-control">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-info">Update person</button>

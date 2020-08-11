@@ -1,10 +1,12 @@
 <?php
-require 'Model/DataBaseLoader.php';
+require_once '../Model/DataBaseLoader.php';
 $message = '';
 if (isset($_POST['name'], $_POST['email'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $sql = 'INSERT INTO people(name, email) VALUES(:name, :email)';
+    $sql = 'INSERT INTO students(name, email) VALUES(:name, :email)';
+    $database = new DataBaseLoader();
+    $PDO = $database->getPdo();
     $statement =$PDO->prepare($sql);
     if ($statement->execute([':name' => $name, ':email' => $email])) {
         $message = 'data inserted successfully';
